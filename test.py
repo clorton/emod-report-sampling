@@ -4,7 +4,7 @@ Quick test of the dtk_to_recombination module.
 
 from argparse import ArgumentParser
 from datetime import datetime
-import os
+import gc
 from pathlib import Path
 from typing import List
 import numpy as np
@@ -244,6 +244,10 @@ if __name__ == "__main__":
 
     counts.to_csv("counts.csv", index=False)
     sub_indices.to_csv("sub_indices.csv", index=False)
+
+    del counts
+    del sub_indices
+    gc.collect()
 
     t0 = datetime.now()
     counts_test, sub_indices_test = process_by_year(
