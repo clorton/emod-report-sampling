@@ -1,0 +1,30 @@
+
+rule setup_subset_groups:
+    input: 
+        recursive_df = lambda wildcards: fpg_input_paths(wildcards, [wildcards.dtk])+"/infIndexRecursive-genomes-df.csv"
+    output:
+        sample_counts = join(OUTPUT_DIR, "{dtk}", "subset-groupCounts.csv"),
+        subset        = join(OUTPUT_DIR, "{dtk}", "subset-indices.csv")
+    params:
+        n_samples_year = mdl['observation_params']['samples_per_year'],
+        n_subsets = mdl['observation_params']['subsample_replicates'],
+        frac_poly = mdl['observation_params']['fraction_polygenomic'],
+        frac_pop  = mdl['observation_params']['population_proportion'],
+        age_bins = None if len(mdl['observation_params']['age_bin_proportion']) < 3 else \
+            mdl['observation_params']['age_bin_proportion'],
+        subset_fever = mdl['observation_params']['only_fever_presenting']
+    benchmark: join(OUTPUT_DIR, "{dtk}", "benchmarks", "create_subsets.txt")    
+    run:
+        if mdl['observation_params']['subset_epi'] != 'True':
+            counts, sub_indices = subset_indices("dummy.txt", str(input.recursive_df), \
+            params.n_samples_year, params.n_subsets, \
+            frac_pop = params.frac_pop, frac_poly= params.frac_poly)
+        else:
+        # Note: For further flexibility on generating subsets, this function can be completely changed. 
+            counts, sub_indices = subset_indices("dummy.txt", str(input.recursive_df), \
+            params.n_samples_year, params.n_subsets, \
+            frac_pop = params.frac_pop, \
+            user_subset=True, has_fever=params.subset_fever, age_bin_weights=params.age_bins)
+
+        counts.to_csv(output.sample_counts, index=False)  
+        sub_indices.to_csv(output.subset, index=False)     

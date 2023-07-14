@@ -1,0 +1,47 @@
+{"tree_params":
+  {
+  "verbose": 0,
+  "debug": 0,
+  "start_time": 0,
+  "n_chrom": 14,
+  "chrom_length": 1000,
+  "bp_per_morgan": 1000,
+  "import_rate": 0.5,
+  "cotrans_seed": 42,
+  "root_multiplicity": 1,
+  "root_moi_fixed": 1,
+  "recomb_seed": 123
+  },
+"variant_params":
+  {
+  "modelName": "test_model",
+  "panel_model": "custom_panel",
+  "root_model": "default", 
+  "popids": [0],
+  "variant_list": ["0", "1"],    
+  "n_sites": [100],
+  "allele_frequency": [0.5],
+  "genotype_seed": [20210909]
+  },
+"observation_params":
+  {
+  "subset_epi": "False",
+  "subsample_replicates": 1,
+  "samples_per_year": 100,
+  "fraction_polygenomic": [],
+  "summary_by_month": "False",
+  "population_proportion": [],
+  "age_bin_proportion": [],
+  "only_fever_presenting": "False",
+  "coi_category_parsing": "False",
+  "coi_category_cutoffs": [1, 2, 3],
+  "run_infection_ibx": "True"
+  },
+"true_genome_params":
+  {
+  "prop_cutoff": [],
+  "hmm_recom_rate": 1,
+  "hmm_coords": "False",
+  "mccoil_burnin": 1000
+  }
+}
